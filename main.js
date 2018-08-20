@@ -1,8 +1,6 @@
 const coffeeShop = {
   beans: 40,
-
   beanPrice: 0.2,
-  
   money: 5000,
 
   drinkRequirements: {
@@ -13,18 +11,7 @@ const coffeeShop = {
   },
 
   makeDrink: function (drinkType) {
-    const toMake = this.drinkRequirements[drinkType]
-    if (!toMake) {
-      console.log("Sorry, we don't make " + drinkType)
-      return false;
-    }
-    if (toMake.beanRequirements > this.beans) {
-      console.log("Sorry, we're all out of beans!")
-      return false;
-    }
-    this.beans -= toMake.beanRequirements
-    console.log("Enjoy your " + drinkType + "!")
-    return true;
+      this.beans -= this.drinkRequirements[drinkType].beanRequirements
   },
 
   buyBeans: function (numBeans) {
@@ -33,9 +20,24 @@ const coffeeShop = {
   },
 
   buyDrink: function (drinkType) {
-    if (this.makeDrink(drinkType)) {
+    if (this.validOrder(drinkType)) {
+      this.makeDrink(drinkType)
       this.money += this.drinkRequirements[drinkType].price
     }
+  },
+
+  validOrder: function (drinkType) {
+    const drink = this.drinkRequirements[drinkType]
+    if (!drink) {
+      console.log("Sorry, we don't make " + drinkType)
+      return false;
+    }
+    if (drink.beanRequirements > this.beans) {
+      console.log("Sorry, we're all out of beans!")
+      return false;
+    }
+    console.log("Enjoy your " + drinkType + "!")
+    return true;
   }
 }
 
